@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>static</title>
+    <link rel="stylesheet" href="./static.css" />
+  </head>
+  <body>
+    <div class="box1">
+      name:<input  type="text" /><br />
+      password:<input type="password" /><br />
+      <button>登录</button>
+      
+    </div>
+    <div class="box2">
+      <input type="file" /><br />
+      <img src="./image/EVA终.jpg" alt="" />
+    </div>
+  </body>
+  <script src="./js/axios.js"></script>
+  <script>
+    // 文件上传
+    const inpFile = document.querySelector(".box2 input[type=file]");
+    let imgUrl =document.querySelector('.box2 img')
+    inpFile.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append("avatar", file);
+      const res = await axios.post("./upload", formData);
+      console.log("💕 ~ res", res);
+      imgUrl.src = res.data.imageUrl;
+    });
+
+    const userInp =document.querySelector('.box1 input[type=text]' )
+    const passInp =document.querySelector('.box1 input[type=password]' )
+    const btn =document.querySelector('.box1 button' )
+    btn.addEventListener('click',async (e) => {
+      let params={}
+      params.username=userInp.value
+      params.password=passInp.value
+      const res = await axios.post('/login',params)
+      console.log("💕 ~ login_res", res)
+    })
+  </script>
+</html>
